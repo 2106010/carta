@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Interactiva</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #fecbcb;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .contenedor-carta {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .sobre {
+            width: 300px;
+            height: 200px;
+            background: #cc0000;
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            border: 3px solid #990000; /* Borde del sobre */
+        }
+
+        .sobre::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000;
+            clip-path: polygon(0 0, 100% 0, 50% 50%);
+            border-top: 3px solid #990000; /* Borde superior */
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); /* Sombra en el triángulo */
+        }
+
+        .sobre::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #cc0000;
+            clip-path: polygon(0 0, 100% 0, 50% 50%, 0 100%, 100% 100%);
+        }
+
+        .hoja {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 280px;
+            height: 0;
+            background: #fff;
+            padding: 20px;
+            overflow: hidden;
+            transform: translate(-50%, -50%);
+            transition: all 0.5s ease-in-out;
+            opacity: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border-radius: 10px;
+        }
+
+        .hoja.abierta {
+            height: 450px;
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .contenido {
+            opacity: 0;
+            transition: opacity 0.3s 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .hoja.abierta .contenido {
+            opacity: 1;
+        }
+
+        .texto-carta {
+            color: #333;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        img {
+            width: 100%;
+            max-height: 250px;
+            border-radius: 10px;
+            border: 2px solid #990000;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor-carta" onclick="abrirCarta()">
+        <div class="sobre"></div>
+        <div class="hoja" id="hoja">
+            <div class="contenido">
+                <div class="texto-carta">
+                    <h2>¡Hola Preciosa! ❤️</h2>
+                    <h3>¿Quieres ser mi San Valentín? 😘
+                        <br>
+                        (La nalguea y la besa)
+                    </h3>
+                </div>
+                <img src="chi.png" alt="">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function abrirCarta() {
+            const hoja = document.getElementById('hoja');
+            hoja.classList.toggle('abierta');
+            
+            // Cerrar la carta al hacer clic fuera
+            document.addEventListener('click', function cerrarCarta(event) {
+                if (!event.target.closest('.contenedor-carta')) {
+                    hoja.classList.remove('abierta');
+                    document.removeEventListener('click', cerrarCarta);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
